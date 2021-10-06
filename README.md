@@ -9,7 +9,7 @@
 
 ## Introduction
 
-I will be automating the installation of a NodeJS application in a cloud server (Digital Ocean). This is what I want to achieve.
+I will be automating the deployment of a NodeJS application in a cloud server (Digital Ocean). The following is what I want to achieve.
 
 1. Create a Droplet on DigitalOcean
 2. Write Ansible playbook
@@ -18,11 +18,11 @@ I will be automating the installation of a NodeJS application in a cloud server 
    * Start application
    * Verify App is running successfully
 
-## Playbook 
+## Playbook
 
 ### Installation and Deployment
 
-I will write the playbook play for the installations of node, npm and their dependencies in the droplet. I will be aided by the documentation for instance when configuring the installation like [apt](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html), etc.
+I will write the playbook for the installations of node, npm and their dependencies. I will be aided by the documentation like for instance in this case of configuring the installation using [apt](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html) package manager.
 
 ```yaml
 ---
@@ -72,7 +72,7 @@ In order to run the application, we need to do the following;
 * Install App Dependencies
 * Run node command
 
-To achieve the above, I'll modify the configuration file by adding another play (**Install dependencies**) then run the playbook.
+To achieve the above, I'll modify the configuration file as follows then run the playbook.
 
 ```yaml
 - name: Deployment of nodejs application
@@ -96,7 +96,7 @@ To achieve the above, I'll modify the configuration file by adding another play 
         cmd: node server
 ```
 
-Installation is successful but the server hangs when it comes to starting it.
+Installation is successful but the server hangs instead of starting.
 
 ![playbook-output](./images/image-4.png)
 
@@ -104,7 +104,7 @@ Installation is successful but the server hangs when it comes to starting it.
 
 ![server-node-installation](./images/image-5.png)
 
-After pocking around, I realized that to solve the issue of the server hanging, I'll need to make the server run in the background by execute it asynchronously. After the modifications, I'll run again the ansible-playbook command which should be faster due to the idempotent nature of Ansible.
+After pocking around, I realized that to solve the issue, I'll need to make the server run in the background by executing it asynchronously. After the modifications, I'll run again the ansible-playbook command which should be faster this time due to the idempotent nature of Ansible.
 
 ![start-server-asynchronously](./images/image-6.png)
 
@@ -125,7 +125,9 @@ This command **ps aux | grep node** spits out the *msg* dictionary because I reg
 
 ## Superuser / Root
 
-Following the principle of least privileges, I shouldn't have run this as a root (As an admin, I'm used to working this way). Each application should be tailored to a specific team-member or a group of users so that incase they break something, you won't have to rebuild the infrastructure or lose critical files.
+Following the principle of least privileges, I shouldn't have run this as root (as an admin, I'm used to working this way and I rarely use sudo unless testing). Anyway, each application should be tailored to a specific team-member or a group of users so that incase they break something, you won't have to rebuild the infrastructure or lose critical files. 
+
+By the way, with privileges (admin/root/Superuser) come great responsibilities. Always document everything, even if it seems trivial like a request to give temporary permissions to an intern. Large companies have very efficient ticketing systems which can track down not only who but the date and time a request was made, whether training was successful and what level of privileges were given.
 
 To make sure that everything is secure I'll have to create a user (**foo**) with minimum privileges to run the app. I'll re-configure the playbook as follows. Even though I'm connecting as root (See **hosts** file), I will install node, npm and create the user as **root**, then the user **foo** will deploy the application.
 
