@@ -17,28 +17,26 @@
       user:
         name: foo
         comment: Foo the developer
-        group: dev
+        group: admin
 
 - name: Deployment of nodejs application
   hosts: 209.97.186.177
   become: True
   become_user: foo
+  vars:
+    - location: /Users/apple/Documents/DevOps/Projects/Ansible-NodeJS/nodejs-app/nodejs-app-1.0.0.tgz
+    - destination: /home/foo
   tasks:
-    - name: Copy nodejs folder to a server
-      copy:
-        src: /Users/apple/Documents/DevOps/Projects/Ansible-NodeJS/nodejs-app/nodejs-app-1.0.0.tgz
-        dest: /home/foo
-    # - name: Unpack the NodeJS tar file
-    #   unarchive:
-    #     src: /root/app-1.0.0.tgz
-    #     dest: /home/foo
-    #     remote_src: yes
+    - name: Unpack nodejs file
+      unarchive:
+        src: "{{location}}"
+        dest: "{{destination}}"
     - name: Install dependencies
       npm:
-        path: /root/package
+        path: "{{destination}}/package"
     - name: Start the nodejs application
       command:
-        chdir: /home/foo/package/app
+        chdir: "{{destination}}/package/app"
         cmd: node server
       async: 1000
       poll: 0
