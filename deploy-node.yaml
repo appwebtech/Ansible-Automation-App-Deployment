@@ -43,5 +43,5 @@
     - name: Verify app is running
       shell: ps aux | grep node
       register: app_status
-    - debug: msg={{app_status}}
+    - debug: msg={{app_status.stdout_lines}}
 

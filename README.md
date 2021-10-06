@@ -184,7 +184,7 @@ To make sure that everything is secure I'll have to create a user (**foo**) with
 
 ## Parameterize
 
-It's possible to make playbooks configurable in order to use them in different environments and also reuse them in other projects. One way of doing this is by using variables and the other is by parameterizing. I will go ahead and parameterize the playbook. The second way which is not my favorite is to create variables and input them on the commandline when prompted as you execute the playbook, but I wont go down that road.
+It's possible to make playbooks configurable in order to use them in different environments and also reuse them in other projects. One way of doing this is by using variables and the other is by parameterizing. I will go ahead and parameterize the playbook. The second way which is not my favorite is to create variables and input them on the commandline when prompted as you execute the playbook, but I wont go down that road. 
 
 ```yaml
 ---
@@ -238,3 +238,11 @@ It's possible to make playbooks configurable in order to use them in different e
 Ofcourse everything parses as anticipated.
 
 ![parameterize](./images/image-9.png)
+
+The last method is applicable for large playbooks where an external variable file is created.
+The variable file can take any name and it uses key-value pairs similar to YAML files. In my case I've created the file **variables** and to reference it to the yaml file you add it as follows;
+
+```yaml
+vars_files:
+    - variables
+```
