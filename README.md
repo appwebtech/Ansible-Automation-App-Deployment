@@ -18,7 +18,7 @@ I will be automating the installation of a NodeJS application in a cloud server 
    * Start application
    * Verify App is running successfully
 
-## Playbook 
+## Playbook 
 
 ### Installation and Deployment
 
