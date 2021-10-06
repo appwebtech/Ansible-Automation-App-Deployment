@@ -127,4 +127,4 @@ This command **ps aux | grep node** spits out the *msg* dictionary because I reg
 
 Following the principle of least privileges, I shouldn't have run this as a root (As an admin, I'm used to working this way). Each application should be tailored to a specific team-member or a group of users so that incase they break something, you won't have to rebuild the infrastructure or lose critical files.
 
-To make sure that everything is secure I'll have to create a user with privileges to run the app and re-configure the playbook.
+To make sure that everything is secure I'll have to create a user (**foo**) with minimum privileges to run the app. I'll re-configure the playbook as follows. Even though I'm connecting as root (See **hosts** file), I will install node, npm and create the user as **root**, then the user **foo** will deploy the application.

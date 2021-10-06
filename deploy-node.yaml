@@ -10,24 +10,35 @@
           - nodejs
           - npm
 
+- name: Create Linux user for node application
+  hosts: 209.97.186.177
+  tasks:
+    - name: Create Linux user
+      user:
+        name: foo
+        comment: Foo the developer
+        group: dev
+
 - name: Deployment of nodejs application
   hosts: 209.97.186.177
+  become: True
+  become_user: foo
   tasks:
     - name: Copy nodejs folder to a server
       copy:
         src: /Users/apple/Documents/DevOps/Projects/Ansible-NodeJS/nodejs-app/nodejs-app-1.0.0.tgz
-        dest: /root/app-1.0.0.tgz
-    - name: Unpack the NodeJS tar file
-      unarchive:
-        src: /root/app-1.0.0.tgz
-        dest: /root/
-        remote_src: yes
+        dest: /home/foo
+    # - name: Unpack the NodeJS tar file
+    #   unarchive:
+    #     src: /root/app-1.0.0.tgz
+    #     dest: /home/foo
+    #     remote_src: yes
     - name: Install dependencies
       npm:
         path: /root/package
     - name: Start the nodejs application
       command:
-        chdir: /root/package/app
+        chdir: /home/foo/package/app
         cmd: node server
       async: 1000
       poll: 0
