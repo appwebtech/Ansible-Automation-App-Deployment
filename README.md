@@ -182,7 +182,7 @@ To make sure that everything is secure I'll have to create a user (**foo**) with
 
 ![create-new-user](./images/image-8.png)
 
-## Parameterize
+## Parameterize / Variables
 
 It's possible to make playbooks configurable in order to use them in different environments and also reuse them in other projects. One way of doing this is by using variables and the other is by parameterizing. I will go ahead and parameterize the playbook. The second way which is not my favorite is to create variables and input them on the commandline when prompted as you execute the playbook, but I wont go down that road. 
 
