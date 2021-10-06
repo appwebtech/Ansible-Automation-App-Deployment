@@ -184,6 +184,6 @@ To make sure that everything is secure I'll have to create a user (**foo**) with
 
 ![create-new-user](./images/image-8.png)
 
-## [Parameterize / Variables](https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/refactoring/variables/README.md)
+## [Parameterize / Variables](https://github.com/appwebtech/Ansible-Automation-App-Deployment/tree/refactoring/variables)
 
-I will create another branch so that I wont overwrite this code. Click this [link](https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/refactoring/variables/README.md) to get redirected.
+I will create another branch so that I wont overwrite this code. Click this [link](https://github.com/appwebtech/Ansible-Automation-App-Deployment/tree/refactoring/variables) to get redirected.
