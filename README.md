@@ -128,3 +128,58 @@ This command **ps aux | grep node** spits out the *msg* dictionary because I reg
 Following the principle of least privileges, I shouldn't have run this as a root (As an admin, I'm used to working this way). Each application should be tailored to a specific team-member or a group of users so that incase they break something, you won't have to rebuild the infrastructure or lose critical files.
 
 To make sure that everything is secure I'll have to create a user (**foo**) with minimum privileges to run the app. I'll re-configure the playbook as follows. Even though I'm connecting as root (See **hosts** file), I will install node, npm and create the user as **root**, then the user **foo** will deploy the application.
+
+```yaml
+---
+- name: Install node and npm
+  hosts: 209.97.186.177
+  tasks:
+    - name: Update apt pkg manager (repo & cache)
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: Install nodejs and npm
+      apt:
+        pkg:
+          - nodejs
+          - npm
+
+- name: Create Linux user for node application
+  hosts: 209.97.186.177
+  tasks:
+    - name: Create Linux user
+      user:
+        name: foo
+        comment: Foo the developer
+        group: admin
+      register: user_creation_result
+    - debug: msg={{user_creation_result.uid}}
+
+- name: Deployment of nodejs application
+  hosts: 209.97.186.177
+  become: True
+  become_user: foo
+  tasks:
+    - name: Unpack nodejs file
+      unarchive:
+        src: /Users/apple/Documents/DevOps/Projects/Ansible-NodeJS/nodejs-app/nodejs-app-1.0.0.tgz
+        dest: /home/foo
+      register: user_creation_result
+    - debug: msg={{user_creation_result}}
+
+    - name: Install dependencies
+      npm:
+        path: /home/foo/package
+    - name: Start the nodejs application
+      command:
+        chdir: /home/foo/package/app
+        cmd: node server
+      async: 1000
+      poll: 0
+    - name: Verify app is running
+      shell: ps aux | grep node
+      register: app_status
+    - debug: msg={{app_status.stdout_lines}}
+```
+
+![create-new-user](./images/image-8.png)
+
+## Parameterize / Variables
