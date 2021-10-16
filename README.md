@@ -3,6 +3,7 @@
 <p float="left">
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/NodeJS-logo.png" width="100">
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/Ansible-logo.png" width="100">
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-ocean-logo.png" width="120">
 </p>
 
 ----
